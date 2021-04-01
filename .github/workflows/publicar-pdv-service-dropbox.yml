@@ -34,7 +34,6 @@ jobs:
           args: edit --inplace --update Project/PropertyGroup/Version --value ${{ steps.previoustag.outputs.tag }} PdvService.API.csproj
       - name: Commit files
         run: |
-          git add -a
           git config --local user.email "fbitencourt-devops@fbitencourt.com"
           git config --local user.name "fbitencourt-devops[bot]"
           git commit -m "Atualizando versao" -a
