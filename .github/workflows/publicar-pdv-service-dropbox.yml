@@ -1,0 +1,49 @@
+# Script para automação do deploy do executável do pdv-service para o dropbox que será usado
+# pelos times de implantação e instalador automatizado
+
+name: deploy-pdv-service
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ mian ]
+
+jobs:
+  buildar-e-publicar-pdv-service-windows-dropbox:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT : true
+      NUGET_SOURCE: https://servicos.teleconsistemas.com.br/nuget
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+
+      - name: Obter numero da tag mais recente
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
+      - name: Atualizar csproj
+        uses: actions Mudlet/xmlstarlet-action@master
+        with:
+          args: edit --update Project/PropertyGroup/Version --value ${{ steps.previoustag.outputs.tag }} PdvService.API.csproj
+      - name: Commit files
+        run: |
+          git config --local user.email "fbitencourt-devops@fbitencourt.com"
+          git config --local user.name "fbitencourt-devops[bot]"
+          git commit -m "Atualizando versao" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN_PESSOAL }}
+          branch: ${{ github.ref }}
+
+      
+  
+
+     
