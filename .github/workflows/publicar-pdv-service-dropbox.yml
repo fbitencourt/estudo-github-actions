@@ -1,0 +1,36 @@
+# Script para automação do deploy do executável do pdv-service para o dropbox que será usado
+# pelos times de implantação e instalador automatizado
+
+name: deploy-pdv-service
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ mian ]
+
+jobs:
+  buildar-e-publicar-pdv-service-windows-dropbox:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT : true
+      NUGET_SOURCE: https://servicos.teleconsistemas.com.br/nuget
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Obter numero da tag mais recente
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+
+      - name: Atualizar csproj
+        uses: actions Mudlet/xmlstarlet-action@master
+        with:
+          args: edit --update Project/PropertyGroup/Version --value ${{ steps.previoustag.outputs.tag }} PdvService.API.csproj
+
+      
+  
+
+     
