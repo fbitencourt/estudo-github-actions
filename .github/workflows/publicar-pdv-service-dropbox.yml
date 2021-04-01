@@ -31,7 +31,7 @@ jobs:
       - name: Atualizar csproj
         uses: Mudlet/xmlstarlet-action@master
         with:
-          args: edit --update Project/PropertyGroup/Version --value ${{ steps.previoustag.outputs.tag }} PdvService.API.csproj
+          args: edit --inplace --update Project/PropertyGroup/Version --value ${{ steps.previoustag.outputs.tag }} PdvService.API.csproj
       - name: Commit files
         run: |
           git add -a
