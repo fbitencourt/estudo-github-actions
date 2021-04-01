@@ -8,7 +8,7 @@
     <Authors>Equipe ERP 2</Authors>
     <Company>Telecon Sistemas</Company>
     <Product>Torus PDV</Product>
-    <Version>7.0.0</Version>
+    <Version>7.1.0</Version>
     <RootNamespace>PdvService.API</RootNamespace>
     <AssemblyName>PdvService</AssemblyName>
     <NeutralLanguage>pt-BR</NeutralLanguage>
